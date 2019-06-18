@@ -10,6 +10,7 @@ class Map
     end
     def add_thing(dict)
         dict.each {|i,j|
+            i.set_location(j[0],j[1])
             @list_thing[i]=j
             @list_coordinates.push j
             @map_node[j[0]][j[1]].add_content(i)
@@ -18,15 +19,28 @@ class Map
     def update_coordinates(dict)
             dict.each { |i,j| 
                 @list_thing[i]=j
-                last_coordinate = i.driver_location
+                last_coordinate = i.get_location
                 @map[last_coordinate[0]][last_coordinate[1]].remove_content(i)
                 @map[j[0]][j[1]].add_content(i)
+                i.set_location(j[0],j[1])
             }
     end
     def get_thing(coordinate)
-
-
+        @map[coordinate[0]][coordinate[1]].content_active
+    end
     def check_area(coordinate)
+        x = coordinate[0]
+        y = coordinate[1]
+        area = [
+            [x-1,y],
+            [x-1,y-1],
+            [x,y-1],
+            [x+1,y-1],
+            [x+1,y],
+            [x+1,y+1],
+            [x,y+1],
+            [x-1,y+1]
+        ]
 
     def print_map
         @map.each{ |i|
