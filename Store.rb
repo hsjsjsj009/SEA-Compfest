@@ -7,9 +7,7 @@ class Store
         @list_food = []
     end
     def add_food(food)
-        food.each {|i|
-            @list_food.push i
-        }
+        @list_food.push food
     end
     def print_food
         @list_food.length.times {|i|
@@ -24,5 +22,8 @@ class Store
             price += @list_food[i-1].price
         }
         { food: select_food, price: price}
+    end
+    def to_s
+        @name
     end
 end

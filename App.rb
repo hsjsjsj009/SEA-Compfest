@@ -1,21 +1,33 @@
 require './Map.rb'
 require './Driver.rb'
+require './Store.rb'
+require './Food.rb'
+
 class App
     attr_reader :map_size
     def initialize(map_size,drivers,store,user)
         @map_size=map_size
         @map = Map.new(map_size)
-        @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
-        @store_list = store.empty? ? generate_default_store : generate_store(store)
         @user = user
         @map.add_thing({ @user => @user.get_location })
+        @store_list = store.empty? ? generate_default_store : generate_store(store)
+        @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
     end
     def generate_default_store
         store = {}
-        ('A'..'C').each {|i|
-            
+        ('1'..'3').each { |i|
+            temp_store = Store.new(i)
+            store[i.to_sym] = temp_store
+            price_start = 100
+            ((i+'A')..(i+'C')).each { |j|
+                temp_store.add_food(Food.new(j,price_start))
+                price_start += 100
+            }
+            location = generate_random_loc
+            temp_store.set_location(location[0],location[1])
+            @map.add_thing({temp_store => temp_store.get_location})
         }
-
+    end
     def generate_random_driver
         driver = {}
         ('a'..'e').to_a.each { |i|

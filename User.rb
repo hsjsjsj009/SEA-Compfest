@@ -21,6 +21,6 @@ class User < Human
     end
 end
 
-a = User.new("U")
-a.run_app
-a.app_map
+test = User.new("%")
+test.run_app
+test.app_map
