@@ -1,11 +1,13 @@
 require './Map.rb'
 require './Driver.rb'
+require './User.rb'
 class App
     attr_reader :map_size
-    def initialize(map_size=20,drivers={},store={})
+    def initialize(map_size=20,drivers={},store={},user={})
         @map_size=map_size
         @map = Map.new(map_size)
         @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
+        @user = 
     end
     def generate_random_driver
         driver = {}
@@ -42,7 +44,20 @@ class App
     def see_map
         @map.print_map
     end
+    def get_closest_driver(coordinates)
+        first, *last = @driver_list.values 
+        closest_driver = first
+        closest_distance = first.distance_to_point(coordinates)
+        last.each { |i|
+            substract = i.distance_to_point(coordinates)
+            if(substract<closest_distance)
+                closest_driver = i
+                closest_distance = substract
+            end
+        }
+        closest_driver
+    end
 end
 
-test = App.new(30)
+test = App.new(ARGV.first.to_i)
 test.see_map
