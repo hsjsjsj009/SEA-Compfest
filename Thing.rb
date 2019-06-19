@@ -7,4 +7,12 @@ module Thing
     def get_location
         [@x,@y]
     end
+    def distance_to_point(coordinates)
+        value = (((@x - coordinates[0])**2) + 
+        ((@y - coordinates[1])**2)) ** 0.5
+        value
+    end
+    def path_to_point(coordinates)
+        start = get_location
+    end
 end

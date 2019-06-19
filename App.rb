@@ -4,7 +4,7 @@ require './Store.rb'
 require './Food.rb'
 
 class App
-    attr_reader :map_size
+    attr_reader :map_size, :store_list, :driver_list
     def initialize(map_size,drivers,store,user)
         @map_size=map_size
         @map = Map.new(map_size)
@@ -27,6 +27,7 @@ class App
             temp_store.set_location(location[0],location[1])
             @map.add_thing({temp_store => temp_store.get_location})
         }
+        store
     end
     def generate_random_driver
         driver = {}
@@ -75,5 +76,18 @@ class App
             end
         }
         closest_driver
+    end
+    def get_closest_store(coordinates)
+        first, *last = @store_list.values 
+        closest_store = first
+        closest_distance = first.distance_to_point(coordinates)
+        last.each { |i|
+            substract = i.distance_to_point(coordinates)
+            if(substract<closest_distance)
+                closest_store = i
+                closest_distance = substract
+            end
+        }
+        closest_store
     end
 end
