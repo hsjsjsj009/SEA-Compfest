@@ -1,13 +1,13 @@
 require './Map.rb'
 require './Driver.rb'
-require './User.rb'
 class App
     attr_reader :map_size
-    def initialize(map_size=20,drivers={},store={},user={})
+    def initialize(map_size,drivers,store,user)
         @map_size=map_size
         @map = Map.new(map_size)
         @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
-        @user = 
+        @user = user
+        @map.add_thing({ @user => @user.get_location })
     end
     def generate_random_driver
         driver = {}
@@ -58,6 +58,3 @@ class App
         closest_driver
     end
 end
-
-test = App.new(ARGV.first.to_i)
-test.see_map
