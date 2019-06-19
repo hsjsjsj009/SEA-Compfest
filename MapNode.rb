@@ -3,6 +3,7 @@ class MapNode
     def initialize(content='.')
         @content_active = content
         @previous_content = content == '.' ? ['.'] : ['.',content]
+        @neighbour_node = []
     end
     def add_content(content)
         @content_active = content
@@ -13,6 +14,6 @@ class MapNode
         @content_active = @previous_content[-1]
     end
     def to_s
-        @content_active.to_s
+        @content_active.to_s + (@previous_content.length > 2 ? "[#{@previous_content.length - 1}]" : "")
     end
 end

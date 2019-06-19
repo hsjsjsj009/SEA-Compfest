@@ -33,19 +33,25 @@ class Map
         y = coordinate[1]
         area = [
             [x-1,y],
-            [x-1,y-1],
             [x,y-1],
-            [x+1,y-1],
             [x+1,y],
-            [x+1,y+1],
-            [x,y+1],
-            [x-1,y+1]
+            [x,y+1]
         ]
-
+        state = true
+        area.each {|i|
+            if(i[0] < @size && i[1] < @size && i[0] >= 0 && i[1] >= 0)
+                if(@list_coordinates.include? i)
+                    state = false
+                    break
+                end
+            end
+        }
+        state
+    end
     def print_map
-        @map.each{ |i|
+        @map_node.each{ |i|
             i.each { |j|
-                print j.to_s +" "
+                print "#{j.to_s} "
             }
             puts
         }
