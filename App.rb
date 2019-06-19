@@ -44,5 +44,5 @@ class App
     end
 end
 
-test = App.new(4)
+test = App.new(30)
 test.see_map
