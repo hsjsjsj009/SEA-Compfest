@@ -6,9 +6,16 @@ class App
         @map_size=map_size
         @map = Map.new(map_size)
         @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
+        @store_list = store.empty? ? generate_default_store : generate_store(store)
         @user = user
         @map.add_thing({ @user => @user.get_location })
     end
+    def generate_default_store
+        store = {}
+        ('A'..'C').each {|i|
+            
+        }
+
     def generate_random_driver
         driver = {}
         ('a'..'e').to_a.each { |i|
