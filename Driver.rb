@@ -14,8 +14,12 @@ class Driver < Human
     def get_order(order)
         @active_order = order
         @history_order.push order
+        # route = order.route[:to_store] + order.route[:to_user]
+        # move(route)
     end
     def connect_app(app)
         @app = app
+    end
+    def move(route)
     end
 end
