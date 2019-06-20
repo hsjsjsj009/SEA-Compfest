@@ -31,10 +31,6 @@ class User < Human
         }
         puts "Closest Store : Store #{@app.get_closest_store(get_location)}"
     end
-    def get_list_food(store)
-        puts "Store #{store.to_s}"
-        store.print_food
-    end
 end
 
 test = User.new("%")
