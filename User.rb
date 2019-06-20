@@ -4,14 +4,14 @@ require './Order.rb'
 require './CLI.rb'
 
 class User < Human
-    attr_reader :app
+    attr_reader :app, :history_order
     def initialize(name)
         super(name)
         @history_order = []
     end
-    def give_order(store,food)
-        driver = @app.get_closest_driver(store.get_location)
-        @active_order = Order.new(self,food,store,driver)
+    def give_order(state)
+        driver = @app.get_closest_driver(state[:store].get_location)
+        @active_order = Order.new(self,state[:order],state[:store],driver)
         @history_order.push @active_order
     end
     def run_app(map_size=20,drivers={},store={},user_location=[])
