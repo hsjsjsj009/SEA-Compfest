@@ -26,7 +26,7 @@ class Map
             }
     end
     def get_thing(coordinate)
-        @map[coordinate[0]][coordinate[1]].content_active
+        @map_node[coordinate[0]][coordinate[1]]
     end
     def check_area(coordinate)
         x = coordinate[0]

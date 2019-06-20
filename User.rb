@@ -1,6 +1,7 @@
 require './Human.rb'
 require './App.rb'
 class User < Human
+    attr_reader :app
     def initialize(name)
         super(name)
         @history_order = []
@@ -9,7 +10,6 @@ class User < Human
         # driver = @app.
         # @active_order = 
         @history_order.push @active_order
-
     end
     def run_app(map_size=20,drivers={},store={},user_location=[])
         start_location = user_location.empty? ? [Random.rand(0...map_size),Random.rand(0...map_size)] : user_location
@@ -33,6 +33,5 @@ class User < Human
 end
 
 test = User.new("%")
-test.run_app
+test.run_app(7)
 test.app_map
-test.get_list_store

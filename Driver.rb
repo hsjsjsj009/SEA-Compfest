@@ -15,4 +15,7 @@ class Driver < Human
         @active_order = order
         @history_order.push order
     end
+    def connect_app(app)
+        @app = app
+    end
 end

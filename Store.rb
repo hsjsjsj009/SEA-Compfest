@@ -9,6 +9,9 @@ class Store
     def add_food(food)
         @list_food.push food
     end
+    def connect_app(app)
+        @app = app
+    end
     def print_food
         @list_food.length.times {|i|
             puts "#{i+1}. #{@list_food[i].to_s} -- #{@list_food[i].price}"

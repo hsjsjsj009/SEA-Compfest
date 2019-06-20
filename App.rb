@@ -17,6 +17,7 @@ class App
         store = {}
         ('1'..'3').each { |i|
             temp_store = Store.new(i)
+            temp_store.connect_app(self)
             store[i.to_sym] = temp_store
             price_start = 100
             ((i+'A')..(i+'C')).each { |j|
@@ -33,6 +34,7 @@ class App
         driver = {}
         ('a'..'e').to_a.each { |i|
             driver[i.to_sym] = Driver.new(i)
+            driver[i.to_sym].connect_app(self)
             loc = generate_random_loc
             driver[i.to_sym].set_location(loc[0],loc[1])
             @map.add_thing({driver[i.to_sym] => driver[i.to_sym].get_location })
@@ -43,6 +45,7 @@ class App
         driver = {}
         dict.each {|i,j| 
             driver[i.to_sym] = Driver.new(i)
+            driver[i.to_sym].connect_app(self)
             driver[i.to_sym].set_location(j[0],j[1])
             @map.add_thing(driver[i.to_sym], driver[i.to_sym].get_location)
         }
@@ -89,5 +92,8 @@ class App
             end
         }
         closest_store
+    end
+    def get_thing(coordinates)
+        @map.get_thing(coordinates)
     end
 end
