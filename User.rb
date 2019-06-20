@@ -4,14 +4,14 @@ require './Order.rb'
 require './CLI.rb'
 
 class User < Human
-    attr_reader :app, :history_order
+    attr_reader :app, :history_order, :active_order
     def initialize(name)
         super(name)
         @history_order = []
     end
     def give_order(state)
         driver = @app.get_closest_driver(state[:store].get_location)
-        @active_order = Order.new(self,state[:order],state[:store],driver)
+        @active_order = Order.new(self,state[:order],state[:store],driver,state[:price])
         @history_order.push @active_order
     end
     def run_app(map_size=20,drivers={},store={},user_location=[])
@@ -30,6 +30,13 @@ class User < Human
             puts "#{i+1}. Store #{list_store[i].to_s}"
         }
         puts "Closest Store : Store #{@app.get_closest_store(get_location)}"
+    end
+    def print_history
+        text = ""
+        @history_order.each {|i|
+            text += i.detail_order
+        }
+        text
     end
 end
 

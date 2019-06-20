@@ -16,6 +16,8 @@ class Driver < Human
         @history_order.push order
         # route = order.route[:to_store] + order.route[:to_user]
         # move(route)
+        rand_location = @app.generate_random_loc
+        set_location(rand_location[0],rand_location[1])
     end
     def connect_app(app)
         @app = app
