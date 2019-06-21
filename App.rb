@@ -50,14 +50,18 @@ class App
                 @driver_list[driver_name.to_sym].connect_app(self)
                 loc = generate_random_loc
                 @driver_list[driver_name.to_sym].set_location(loc[0],loc[1])
-                @map.update_thing
+                @map.add_thing({@driver_list[driver_name.to_sym] => loc})
+                found = true
+            end
+        end
+    end
     def generate_driver(dict)
         driver = {}
         dict.each {|i,j| 
             driver[i.to_sym] = Driver.new(i)
             driver[i.to_sym].connect_app(self)
             driver[i.to_sym].set_location(j[0],j[1])
-            @map.add_thing(driver[i.to_sym], driver[i.to_sym].get_location)
+            @map.add_thing({driver[i.to_sym] => driver[i.to_sym].get_location})
         }
         driver
     end
@@ -106,4 +110,6 @@ class App
     def get_thing(coordinates)
         @map.get_thing(coordinates)
     end
+    def give_driver_rating(driver)
+        driver.
 end

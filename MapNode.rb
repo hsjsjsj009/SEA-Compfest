@@ -10,7 +10,7 @@ class MapNode
         if (@information == "")
             @content_show = content
             @content_active.push content
-            @information = (content.class.to_s)
+            @information = content.class.to_s
         else
             if (@information == "Driver")
                 @content_show = content
@@ -24,6 +24,7 @@ class MapNode
         if (@information == "Driver")
             @content_active.delete content
             @content_show = @content_active[-1]
+            @information = @content_show == "." ? "" : @content_show.class.to_s
         else 
             @content_active.delete content
         end
