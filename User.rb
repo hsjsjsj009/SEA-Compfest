@@ -39,6 +39,3 @@ class User < Human
         text
     end
 end
-
-test = User.new("%")
-test.run_app()

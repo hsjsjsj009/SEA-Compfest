@@ -110,7 +110,7 @@ class CLI
     def process_order(state)
         @user.give_order(state)
         puts "Processing Order User #{@user.to_s} Number #{@user.active_order.id}"
-        puts "Ordered Driver is Driver #{@user.active_order.driver.to_s}"
+        puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value}"
         sleep(1)
         puts "Order done"
         3.downto(0) { |i|

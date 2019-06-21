@@ -41,6 +41,16 @@ class App
         }
         driver
     end
+    def generate_single_driver
+        found = false
+        while !found
+            driver_name = Random.rand(("aa".."zz"))
+            if(!@driver_list.keys.include?(driver_name.to_sym))
+                @driver_list[driver_name.to_sym] = Driver.new(driver_name)
+                @driver_list[driver_name.to_sym].connect_app(self)
+                loc = generate_random_loc
+                @driver_list[driver_name.to_sym].set_location(loc[0],loc[1])
+                @map.update_thing
     def generate_driver(dict)
         driver = {}
         dict.each {|i,j| 
@@ -68,7 +78,7 @@ class App
         @map.print_map
     end
     def get_closest_driver(coordinates)
-        first, *last = @driver_list.values 
+        first, *last = @driver_list.values.select { |i| i.get_rating_value >= 3.0 }
         closest_driver = first
         closest_distance = first.distance_to_point(coordinates)
         last.each { |i|
