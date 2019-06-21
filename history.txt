@@ -1,0 +1,6 @@
+--------- Order Number 1 -----------
+ From Store 2
+ Ordered Food
+     Food 2B Amount 5 Price 1000
+ Ordered Driver is Driver c
+

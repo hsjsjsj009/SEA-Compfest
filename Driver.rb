@@ -13,13 +13,13 @@ class Driver < Human
         @price_per_unit = @@price_per_unit
         @rating = Rating.new(self,rating)
     end
-    def get_order(order)
+    def do_order(order)
         @active_order = order
         @history_order.push order
         # route = order.route[:to_store] + order.route[:to_user]
         # move(route)
         rand_location = @app.generate_random_loc
-        set_location(rand_location[0],rand_location[1])
+        @app.move_thing(self,rand_location)
     end
     def add_rating(rating)
         @rating.add_rating(rating.to_f)

@@ -19,3 +19,5 @@ Setiap toko dapat diakses dari segala macam arah(kanan,kiri,atas,bawah)
 Setiap driver dapat melintasi driver dan User, disini saya menganggap satu node merupakan 2 ruas jalan. Tetapi driver tidak dapat melintasi Toko
 
 Setiap driver yang di generate memiliki rating awal 4.0
+
+File history bernama history.txt

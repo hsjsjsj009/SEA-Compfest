@@ -16,14 +16,20 @@ class Map
             @map_node[j[0]][j[1]].add_content(i)
         }
     end
-    def update_coordinates(dict)
+    def move_thing(dict)
             dict.each { |i,j| 
                 @list_thing[i]=j
                 last_coordinate = i.get_location
-                @map[last_coordinate[0]][last_coordinate[1]].remove_content(i)
-                @map[j[0]][j[1]].add_content(i)
+                @map_node[last_coordinate[0]][last_coordinate[1]].remove_content(i)
+                @map_node[j[0]][j[1]].add_content(i)
                 i.set_location(j[0],j[1])
             }
+    end
+    def remove_thing(dict)
+        dict.each {|i,j| 
+            node = get_thing(j)
+            node.remove_content(i)
+        }
     end
     def get_thing(coordinate)
         @map_node[coordinate[0]][coordinate[1]]

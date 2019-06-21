@@ -6,6 +6,7 @@ class Rating
     end
     def add_rating(rating)
         @list_rating.push rating
+    end
     def get_value
         value = 0.0
         @list_rating.each {|i|

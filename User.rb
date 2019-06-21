@@ -4,15 +4,21 @@ require './Order.rb'
 require './CLI.rb'
 
 class User < Human
-    attr_reader :app, :history_order, :active_order
-    def initialize(name)
+    attr_reader :app, :history_order, :active_order, :file
+    def initialize(name,file)
         super(name)
+        @file = file
         @history_order = []
     end
     def give_order(state)
         driver = @app.get_closest_driver(state[:store].get_location)
-        @active_order = Order.new(self,state[:order],state[:store],driver,state[:price])
-        @history_order.push @active_order
+        if driver.nil?
+            nil
+        else 
+            @active_order = Order.new(self,state[:order],state[:store],driver,state[:price])
+            @history_order.push @active_order
+            1
+        end
     end
     def run_app(map_size=20,drivers={},store={},user_location=[])
         start_location = user_location.empty? ? [Random.rand(0...map_size),Random.rand(0...map_size)] : user_location
@@ -22,7 +28,7 @@ class User < Human
     end
     def app_map
         @app.see_map
-        puts "User is %"
+        puts "User is #{@name}"
     end
     def get_list_store
         list_store = @app.store_list.values
@@ -37,5 +43,8 @@ class User < Human
             text += i.detail_order
         }
         text
+    end
+    def write_to_file
+        @file.write(print_history)
     end
 end

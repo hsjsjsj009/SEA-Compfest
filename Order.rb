@@ -9,7 +9,7 @@ class Order
         @price = price
         @@order_id += 1
         @id = @@order_id
-        driver.get_order(self)
+        driver.do_order(self)
         # delivery_fee
     end
     def add_route(route)

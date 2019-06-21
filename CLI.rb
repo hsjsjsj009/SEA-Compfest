@@ -22,6 +22,12 @@ class CLI
             order_menu
         elsif (input == 4)
             system("clear")
+            puts "Writing History to File"
+            @user.write_to_file
+            sleep(1)
+            puts "Done"
+            sleep(0.5)
+            @user.file.close
             exit
         elsif (input == 3)
             system("clear")
@@ -42,6 +48,12 @@ class CLI
             main
         elsif(input == "e")
             system("clear")
+            puts "Writing History to File"
+            @user.write_to_file
+            sleep(1)
+            puts "Done"
+            sleep(0.5)
+            @user.file.close
             exit
         elsif(0 < input.to_i && input.to_i <= @app.store_list.values.length)
             system("clear")
@@ -67,6 +79,9 @@ class CLI
             order_menu
         elsif(input == "e")
             system("clear")
+            @user.write_to_file
+            sleep(0.7)
+            @user.file.close
             exit
         elsif(0 < input.split(",")[0].to_i && input.split(",")[0].to_i <= store.list_food.length )
             input = input.split(",").collect! {|i| i.to_i}
@@ -108,17 +123,41 @@ class CLI
         end
     end
     def process_order(state)
-        @user.give_order(state)
-        puts "Processing Order User #{@user.to_s} Number #{@user.active_order.id}"
-        puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value}"
-        sleep(1)
-        puts "Order done"
-        3.downto(0) { |i|
-            puts "Back to menu in #{i}"
-            sleep(0.7)
-        }
+        if @user.give_order(state).nil?
+            puts "Looking for driver...."
+            driver = @app.generate_single_driver
+            sleep(0.8)
+            puts "Found Driver, Driver #{driver}"
+            sleep(1)
+            system("clear")
+            process_order(state)
+        else
+            puts "Processing Order User #{@user.to_s} Number #{@user.active_order.id}"
+            puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value}"
+            sleep(1)
+            puts "Order done"
+            puts "Give Rating to Driver #{@user.active_order.driver.to_s}"
+            sleep(1)
+            give_ratings(@user.active_order.driver)
+        end
+    end
+    def give_ratings(driver)
         system("clear")
-        main
+        puts "Give Rating to Driver #{driver.to_s}"
+        puts "Range 1 to 5"
+        block_given? ? yield : nil
+        input = $stdin.gets.chomp
+        if(input.to_i >= 1 && input.to_i <=5 )
+            @app.give_driver_rating(driver,input.to_i)
+            3.downto(0) { |i|
+                puts "Back to menu in #{i}"
+                sleep(0.7)
+            }
+            system("clear")
+            main
+        else
+            give_ratings(driver) {puts "Wrong Input"}
+        end
     end
     def see_history
         if @user.history_order.empty?
@@ -135,6 +174,12 @@ class CLI
             main
         elsif(input == "e")
             system("clear")
+            puts "Writing History to File"
+            @user.write_to_file
+            sleep(1)
+            puts "Done"
+            sleep(0.5)
+            @user.file.close
             exit
         else
             system("clear")

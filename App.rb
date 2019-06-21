@@ -44,7 +44,7 @@ class App
     def generate_single_driver
         found = false
         while !found
-            driver_name = Random.rand(("aa".."zz"))
+            driver_name = ("aa".."zz").to_a.sample
             if(!@driver_list.keys.include?(driver_name.to_sym))
                 @driver_list[driver_name.to_sym] = Driver.new(driver_name)
                 @driver_list[driver_name.to_sym].connect_app(self)
@@ -54,6 +54,7 @@ class App
                 found = true
             end
         end
+        driver_name
     end
     def generate_driver(dict)
         driver = {}
@@ -82,17 +83,21 @@ class App
         @map.print_map
     end
     def get_closest_driver(coordinates)
-        first, *last = @driver_list.values.select { |i| i.get_rating_value >= 3.0 }
-        closest_driver = first
-        closest_distance = first.distance_to_point(coordinates)
-        last.each { |i|
-            substract = i.distance_to_point(coordinates)
-            if(substract<closest_distance)
-                closest_driver = i
-                closest_distance = substract
-            end
-        }
-        closest_driver
+        if(@driver_list.values.length == 0)
+            nil
+        else
+            first, *last = @driver_list.values
+            closest_driver = first
+            closest_distance = first.distance_to_point(coordinates)
+            last.each { |i|
+                substract = i.distance_to_point(coordinates)
+                if(substract<closest_distance)
+                    closest_driver = i
+                    closest_distance = substract
+                end
+            }
+            closest_driver
+        end
     end
     def get_closest_store(coordinates)
         first, *last = @store_list.values 
@@ -110,6 +115,18 @@ class App
     def get_thing(coordinates)
         @map.get_thing(coordinates)
     end
-    def give_driver_rating(driver)
-        driver.
+    def give_driver_rating(driver,rating)
+        driver.add_rating(rating)
+        rating_value = driver.get_rating_value
+        if(rating_value < 3.0)
+            remove_thing(driver,driver.get_location)
+            @driver_list.delete(driver.to_sym)
+        end
+    end
+    def move_thing(thing,location)
+        @map.move_thing({thing => location})
+    end
+    def remove_thing(thing,location)
+        @map.remove_thing({thing => location})
+    end       
 end
