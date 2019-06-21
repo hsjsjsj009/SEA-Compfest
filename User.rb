@@ -14,7 +14,7 @@ class User < Human
         driver = @app.get_closest_driver(state[:store].get_location)
         if driver.nil?
             nil
-        else 
+        else
             @active_order = Order.new(self,state[:order],state[:store],driver,state[:price])
             @history_order.push @active_order
             1

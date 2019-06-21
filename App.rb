@@ -58,7 +58,7 @@ class App
     end
     def generate_driver(dict)
         driver = {}
-        dict.each {|i,j| 
+        dict.each {|i,j|
             driver[i.to_sym] = Driver.new(i)
             driver[i.to_sym].connect_app(self)
             driver[i.to_sym].set_location(j[0],j[1])
