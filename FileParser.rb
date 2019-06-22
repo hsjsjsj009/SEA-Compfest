@@ -9,39 +9,38 @@ class FileParser
         @file.close
     end
     def read_file(file = @file)
-            correct = true
-            file.each_line{|i|
-                i = i.chomp("\n")
-                @read_line += 1
-                if(i == "Map")
-                    if(map(file) == "error")
-                        correct = false
-                        break
-                    end
-                elsif (i == "User")
-                    if(user(file) == "error")
-                        correct = false
-                        break
-                    end 
-                elsif (i == "Driver")
-                    if(driver(file) == "error")
-                        correct = false
-                        break
-                    end
-                elsif(i == "")
-                    next
-                else
-                    puts "Incorrect command line #{@read_line}"
+        correct = true
+        file.each_line{|i|
+            i = i.chomp("\n")
+            @read_line += 1
+            if(i == "Map")
+                if(map(file) == "error")
                     correct = false
                     break
                 end
-            }
-            if(correct)
-                nil
+            elsif (i == "User")
+                if(user(file) == "error")
+                    correct = false
+                    break
+                end 
+            elsif (i == "Driver")
+                if(driver(file) == "error")
+                    correct = false
+                    break
+                end
+            elsif(i == "")
+                next
             else
-                "error"
+                puts "Incorrect command line #{@read_line}"
+                correct = false
+                break
             end
-            
+        }
+        if(correct)
+            nil
+        else
+            "error"
+        end
     end
     def map(file)
         correct = true
@@ -137,7 +136,7 @@ class FileParser
             name:[],
             location:[]
         }
-        file.each_line {|i|
+        file.each_line { |i|
             i = i.chomp("\n")
             @read_line += 1
             if(i == "end")
@@ -169,8 +168,6 @@ class FileParser
                 begin
                     i = i.split("=")
                     loc = i[1].split(",").collect! {|i| eval i}
-                    # if(state[:name].length == 0)
-                    # end
                     if (@data[:driver][state[:name][-1]].empty?) 
                         if(state[:location].include? loc)
                             puts "Driver location duplicate in line #{@read_line}"
@@ -250,8 +247,9 @@ class FileParser
         }
     end
 end
+#lanjot bikin store dan food reader
 
 test = FileParser.new("input.txt")
-print "#{test.read_file} \n"
-print "#{test.data} \n"
+print "#{test.read_file}\n"
+print "#{test.data}\n"
 test.close
