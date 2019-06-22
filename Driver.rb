@@ -5,7 +5,7 @@ class Driver < Human
     attr_accessor :price_per_unit
     @@driver_count = 0
     @@price_per_unit = 300
-    def initialize(name,rating=4.0)
+    def initialize(name,rating=0.0)
         super(name)
         @@driver_count += 1
         @id = @@driver_count

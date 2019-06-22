@@ -28,7 +28,7 @@ location=9,10
 
 end
 
-Food -> Store aa 
+Food aa
 name=asd
 price=100
 
@@ -36,7 +36,7 @@ name=gdg
 price=120
 end
 
-Food -> Store bb
+Food bb
 name=add
 price=100
 

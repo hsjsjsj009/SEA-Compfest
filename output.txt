@@ -1,0 +1,1 @@
+{:user=>{:name=>"%", :location=>[10, 4]}, :driver=>{"a"=>{:location=>[0, 0], :rating=>3.0}, "b"=>{:location=>[2, 2]}, "c"=>{:location=>[3, 3]}}, :store=>{"aa"=>{:location=>[8, 9], :food=>{"asd"=>100, "gdg"=>120}}, "bb"=>{:location=>[9, 10], :food=>{"add"=>100, "gasg"=>120}}}, :map_size=>20}
