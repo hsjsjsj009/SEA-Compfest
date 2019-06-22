@@ -1,5 +1,22 @@
 require './User.rb'
 require './FileParser.rb'
+
+def file_name
+    name = "history.txt"
+    found = false
+    i = 1
+    while !found
+        if(File.file?(name))
+            name = "history#{i}.txt"
+            i += 1
+            next
+        else
+            found = true
+        end
+    end
+    name
+end
+
 if(ARGV.empty?)
     output_stream = open(file_name, "w")
     user = User.new("%", output_stream)
@@ -31,23 +48,18 @@ elsif(ARGV.length == 1)
             puts "File doesn't exist"
         else
             file_parse = FileParser.new(first)
-            output_stream = open(file_name,"w")
-
-    end
-end
-
-def file_name
-    name = "history.txt"
-    found = false
-    i = 1
-    while !found
-        if(File.file?(name))
-            name = "history#{i}.txt"
-            i += 1
-            next
-        else
-            found = true
+            system("clear")
+            puts "Reading file...."
+            sleep(1)
+            if (file_parse.read_file != "error")
+                puts "Done"
+                sleep(0.5)
+                output_stream = open(file_name,"w")
+                user = User.new(file_parse.data[:user][:name],output_stream)
+                user.run_app(file_parse.data[:map_size],file_parse.data[:driver],file_parse.data[:store],file_parse.data[:user][:location])
+            end
         end
     end
-    name
 end
+
+

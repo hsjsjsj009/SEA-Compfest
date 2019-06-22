@@ -30,6 +30,22 @@ class App
         }
         store
     end
+    def generate_store(dict)
+        store = {}
+        dict.each {|i,j|
+            loc = j[:location]
+            food = j[:food]
+            temp_store = Store.new(i)
+            temp_store.connect_app(self)
+            store[i.to_sym] = temp_store
+            food.each {|k,l| 
+                temp_store.add_food(Food.new(k,l))
+            }
+            temp_store.set_location(loc[0],loc[1])
+            @map.add_thing({temp_store => temp_store.get_location})
+        }
+        store
+    end
     def generate_random_driver
         driver = {}
         ('a'..'e').to_a.each { |i|
@@ -59,9 +75,11 @@ class App
     def generate_driver(dict)
         driver = {}
         dict.each {|i,j|
-            driver[i.to_sym] = Driver.new(i)
+            loc = j[:location]
+            rating = j[:rating].nil? ? 0 : j[:rating]
+            driver[i.to_sym] = Driver.new(i,rating)
             driver[i.to_sym].connect_app(self)
-            driver[i.to_sym].set_location(j[0],j[1])
+            driver[i.to_sym].set_location(loc[0],loc[1])
             @map.add_thing({driver[i.to_sym] => driver[i.to_sym].get_location})
         }
         driver

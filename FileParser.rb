@@ -3,6 +3,8 @@ class FileParser
     def initialize(filename)
         @file = open(filename,"r")
         @data = {user:{},driver:{},store:{}}
+        @used_name = []
+        @used_location = []
         @read_line = 0
     end
     def close
@@ -127,8 +129,15 @@ class FileParser
                         correct = false
                         break
                     else
-                        @data[:user][:name] = i[1].strip
-                        name = true
+                        if(@used_name.include? i[1])
+                            puts "Name has been used in this app - line #{@read_line}"
+                            correct = false
+                            break
+                        else
+                            @data[:user][:name] = i[1].strip
+                            name = true
+                            @used_name.push i[1].strip
+                        end
                     end
                 rescue
                     puts "Incorrect command line #{@read_line}"
@@ -138,9 +147,22 @@ class FileParser
             elsif(i.include? "location")
                 begin
                     i = i.split("=")
-                    loc = i[1].split(",").collect! {|j| eval j}
-                    @data[:user][:location] = loc
-                    location = true
+                    if(i[1].nil?)
+                        puts "User has no location in line #{@read_line}"
+                        correct = false
+                        break
+                    else
+                        loc = i[1].split(",").collect! {|j| eval j}
+                        if(@used_location.include? loc)
+                            puts "Location has been used in this app - line #{@read_line}"
+                            correct = false
+                            break
+                        else
+                            @data[:user][:location] = loc
+                            location = true
+                            @used_location.push loc
+                        end
+                    end
                 rescue
                     puts "Incorrect command line #{@read_line}"
                     correct = false
@@ -186,13 +208,20 @@ class FileParser
                         break
                     else
                         i[1] = i[1].strip
-                        if(state[:name].include? i[1])
-                            puts "Driver name duplicate in line #{@read_line}"
+                        if (@used_name.include? i[1])
+                            puts "Name has been used in this app - line #{@read_line}"
                             correct = false
                             break
                         else
-                            @data[:driver][i[1]] = {}
-                            state[:name].push i[1]
+                            if(state[:name].include? i[1])
+                                puts "Driver name duplicate in line #{@read_line}"
+                                correct = false
+                                break
+                            else
+                                @data[:driver][i[1]] = {}
+                                state[:name].push i[1]
+                                @used_name.push i[1]
+                            end
                         end
                     end
                 rescue
@@ -209,19 +238,26 @@ class FileParser
                         break
                     else
                         loc = i[1].split(",").collect! {|j| eval j}
-                        if (@data[:driver][state[:name][-1]].empty?) 
-                            if(state[:location].include? loc)
-                                puts "Driver location duplicate in line #{@read_line}"
-                                correct = false
-                                break
-                            else
-                                @data[:driver][state[:name][-1]][:location] = loc
-                                state[:location].push loc
-                            end
-                        else
-                            puts "Driver data mismatch name in line #{@read_line}"
+                        if (@used_location.include? loc)
+                            puts "Location has been used in this app - line #{@read_line}"
                             correct = false
                             break
+                        else
+                            if (@data[:driver][state[:name][-1]].empty?)
+                                if(state[:location].include? loc)
+                                    puts "Driver location duplicate in line #{@read_line}"
+                                    correct = false
+                                    break
+                                else
+                                    @data[:driver][state[:name][-1]][:location] = loc
+                                    state[:location].push loc
+                                    @used_location.push loc
+                                end
+                            else
+                                puts "Driver data mismatch name in line #{@read_line}"
+                                correct = false
+                                break
+                            end 
                         end
                     end
                 rescue
@@ -283,13 +319,20 @@ class FileParser
                         break
                     else
                         i[1] = i[1].strip
-                        if(state[:name].include? i[1])
-                            puts "Store name duplicate in line #{@read_line}"
+                        if (@used_name.include? i[1])
+                            puts "Name has been used in this app - line #{@read_line}"
                             correct = false
                             break
                         else
-                            @data[:store][i[1]] = {}
-                            state[:name].push i[1]
+                            if(state[:name].include? i[1])
+                                puts "Store name duplicate in line #{@read_line}"
+                                correct = false
+                                break
+                            else
+                                @data[:store][i[1]] = {}
+                                state[:name].push i[1]
+                                @used_name.push i[1]
+                            end 
                         end
                     end
                 rescue
@@ -306,19 +349,26 @@ class FileParser
                         break
                     else
                         loc = i[1].split(",").collect! {|j| eval j}
-                        if (@data[:store][state[:name][-1]].empty?) 
-                            if(state[:location].include? loc)
-                                puts "Store location duplicate in line #{@read_line}"
-                                correct = false
-                                break
-                            else
-                                @data[:store][state[:name][-1]][:location] = loc
-                                state[:location].push loc
-                            end
-                        else
-                            puts "Store data mismatch name in line #{@read_line}"
+                        if (@used_location.include? loc)
+                            puts "Location has been used in this app - line #{@read_line}"
                             correct = false
                             break
+                        else
+                            if (@data[:store][state[:name][-1]].empty?) 
+                                if(state[:location].include? loc)
+                                    puts "Store location duplicate in line #{@read_line}"
+                                    correct = false
+                                    break
+                                else
+                                    @data[:store][state[:name][-1]][:location] = loc
+                                    state[:location].push loc
+                                    @used_location.push loc
+                                end
+                            else
+                                puts "Store data mismatch name in line #{@read_line}"
+                                correct = false
+                                break
+                            end 
                         end
                     end
                 rescue
@@ -422,7 +472,7 @@ class FileParser
 end
 #lanjot bikin store dan food reader
 
-test = FileParser.new("input.txt")
-print "#{test.read_file}\n"
-open("output.txt","w").write(test.data)
-test.close
+# test = FileParser.new("input.txt")
+# print "#{test.read_file}\n"
+# open("output.txt","w").write(test.data)
+# test.close
