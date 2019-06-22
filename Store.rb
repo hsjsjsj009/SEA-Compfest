@@ -13,12 +13,16 @@ class Store
         @app = app
     end
     def print_food(order_state={})
-        puts "Store #{@name}"
-        @list_food.length.times {|i|
-            order_count = order_state.empty? ? 0 : order_state[:order][@list_food[i]].to_i
-            puts "#{i+1}. #{@list_food[i].to_s} -- #{@list_food[i].price} per unit - count: #{order_count} - price: #{order_count*@list_food[i].price}"
-        }
-        puts "Total price = #{order_state.empty? ? 0 : order_state[:price]}"
+        if(@list_food.empty?)
+            puts "No Food"
+        else
+            puts "Store #{@name}"
+            @list_food.length.times {|i|
+                order_count = order_state.empty? ? 0 : order_state[:order][@list_food[i]].to_i
+                puts "#{i+1}. #{@list_food[i].to_s} -- #{@list_food[i].price} per unit - count: #{order_count} - price: #{order_count*@list_food[i].price}"
+            }
+            puts "Total price = #{order_state.empty? ? 0 : order_state[:price]}"
+        end
     end
     def select_food(index)
         selected_food = []
