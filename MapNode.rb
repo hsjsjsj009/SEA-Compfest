@@ -1,6 +1,8 @@
 class MapNode
     attr_reader :content_active, :information
-    def initialize
+    def initialize(x,y)
+        @x = x
+        @y = y
         @content_show = '.'
         @content_active = ['.']
         @neighbour_node = []

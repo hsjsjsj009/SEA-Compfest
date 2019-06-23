@@ -5,24 +5,24 @@ class Map
     def initialize(size)
         @size = size
         @list_thing = {}
-        @map_node = Array.new(size) {Array.new(size) {MapNode.new()}}
+        @map_node = Array.new(size) {|i| Array.new(size) {|j| MapNode.new(i,j)}}
         @list_coordinates = []
     end
     def add_thing(dict)
         dict.each {|i,j|
-            i.set_location(j[0],j[1])
+            i.set_location(j[1],j[0])
             @list_thing[i]=j
             @list_coordinates.push j
-            @map_node[j[0]][j[1]].add_content(i)
+            @map_node[j[1]][j[0]].add_content(i)
         }
     end
     def move_thing(dict)
             dict.each { |i,j| 
                 @list_thing[i]=j
                 last_coordinate = i.get_location
-                @map_node[last_coordinate[0]][last_coordinate[1]].remove_content(i)
-                @map_node[j[0]][j[1]].add_content(i)
-                i.set_location(j[0],j[1])
+                @map_node[last_coordinate[1]][last_coordinate[0]].remove_content(i)
+                @map_node[j[1]][j[0]].add_content(i)
+                i.set_location(j[1],j[0])
             }
     end
     def remove_thing(dict)
@@ -35,8 +35,8 @@ class Map
         @map_node[coordinate[0]][coordinate[1]]
     end
     def check_area(coordinate)
-        x = coordinate[0]
-        y = coordinate[1]
+        x = coordinate[1]
+        y = coordinate[0]
         area = [
             [x-1,y],
             [x,y-1],

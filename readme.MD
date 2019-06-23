@@ -1,6 +1,6 @@
 Untuk menjalankan program gunakan Go-Eat.rb
 
-Program yang saya buat ini menggunakan aturan x,y tapi dengan aturan x=kolom dan y=baris, alias x disini merupakan y di diagram kartesius, y disini merupakan x di diagram kartesius. Saya mendesain seperti ini agar memudahkan saya dalam membuat posisi benda bendanya karena saya menggunakan array 2 dimensi.
+Titik 0,0 pada program ini ialah titik kiri atas.
 
 Di dalam mendesain program ini, saya menggunakan OOP dengan file terpisah agar membuat program saya menjadi modular, sehingga dapat mempermudah debugging dan maintenance apabila ada fitur yang kurang.
 
@@ -21,3 +21,5 @@ Setiap driver dapat melintasi driver dan User, disini saya menganggap satu node 
 Setiap driver yang di generate memiliki rating awal 4.0
 
 File history bernama history.txt
+
+Contoh inputan file bisa dilihat di input.txt, saya mengambil desain inputan file seperti itu agar dapat dibaca jelas oleh manusia dan mesin. Data dibagi menjadi 5 segmen yaitu Map,User,Driver,Store,dan Food, setiap segmen diawali dengan huruf besar. Untuk mengakhiri segmen ditambahkan kata "end" agar program dapat tahu kalau segmen tersebut telah selesai.
