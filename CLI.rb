@@ -97,8 +97,13 @@ class CLI
             system("clear")
             show_food(store,state_now)
         elsif(input == "s")
-            system("clear")
-            confirm_order(state_now)
+            if(state_now[:price] == 0)
+                system("clear")
+                show_food(store,state == nil ? nil : state_now) {puts "Input Amount of Food"}
+            else                
+                system("clear")
+                confirm_order(state_now)
+            end
         else
             system("clear")
             show_food(store,state == nil ? nil : state_now) {puts "No Food or Wrong Command"}
@@ -111,7 +116,8 @@ class CLI
         state[:order].each {|i,j| 
             puts "Food #{i.to_s} Amount #{j} Price #{j * i.price}"
         }
-        puts "Delivery Cost : #{order_processed.delivery_fee}"
+        puts "Delivery Cost : #{order_processed.delivery_fee[:cost]} -- #{order_processed.delivery_fee[:length]} units"
+        puts "Total Cost : #{order_processed.set_price(order_processed.delivery_fee[:cost] + state[:price])}"
         puts "o. Ok"
         puts "b. Back"
         block_given? ? yield : nil

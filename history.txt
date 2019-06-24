@@ -1,0 +1,64 @@
+--------- Order Number 1 -----------
+User % -- location [12, 1]
+ From Store 3 -- location [6, 11]
+ Ordered Food
+     Food 3C Amount 5 Price 1500
+ Delivery Cost = 4800 -- 16 units
+ Total Price = 6300
+ Ordered Driver is Driver c
+
+Route :
+driver is on the way to store, start at [5, 9]
+go to [6, 9]
+go to [6, 10]
+go to [6, 11], driver arrived at the store
+driver has bought the item(s), start at [6, 11]
+go to [6, 10]
+go to [6, 9]
+go to [6, 8]
+go to [6, 7]
+go to [6, 6]
+go to [6, 5]
+go to [6, 4]
+go to [6, 3]
+go to [6, 2]
+go to [6, 1]
+go to [7, 1]
+go to [8, 1]
+go to [9, 1]
+go to [10, 1]
+go to [11, 1]
+go to [12, 1], driver arrived at your place
+
+--------- Order Number 2 -----------
+User % -- location [12, 1]
+ From Store 3 -- location [6, 11]
+ Ordered Food
+     Food 3A Amount 10 Price 1000
+ Delivery Cost = 4800 -- 16 units
+ Total Price = 5800
+ Ordered Driver is Driver d
+
+Route :
+driver is on the way to store, start at [3, 11]
+go to [4, 11]
+go to [5, 11]
+go to [6, 11], driver arrived at the store
+driver has bought the item(s), start at [6, 11]
+go to [6, 10]
+go to [6, 9]
+go to [6, 8]
+go to [6, 7]
+go to [6, 6]
+go to [6, 5]
+go to [6, 4]
+go to [6, 3]
+go to [6, 2]
+go to [6, 1]
+go to [7, 1]
+go to [8, 1]
+go to [9, 1]
+go to [10, 1]
+go to [11, 1]
+go to [12, 1], driver arrived at your place
+

@@ -1,7 +1,7 @@
 require './Driver.rb'
 
 class Order
-    attr_reader :store, :user, :route, :id, :driver
+    attr_reader :store, :user, :route, :id, :driver, :price
     @@order_id = 0
     def initialize(user,thing,store,price)
         @user = user
@@ -17,27 +17,32 @@ class Order
     def add_driver_route(route)
         @route[:to_store] = route
     end
-    def add_price(price)
-        @price += price
+    def set_price(price)
+        @price = price
+        @price
     end
     def delivery_fee
         @route[:to_user] = @user.app.find_path(@store,@user)
         route_count = route[:to_user]
         route_length = route_count.length - 1
         cost = route_length*Driver.price_per_unit
-        add_price(cost)
-        cost
+        @delivery_cost = cost
+        @delivery_length = route_length
+        {cost:cost,length:route_length}
     end
     def total_price
         @price
     end
     def detail_order
         text = "--------- Order Number #{@id} -----------\n" +
-                " From Store #{store.to_s}\n" +
+                "User #{@user.to_s} -- location #{@user.get_location}\n" +
+                " From Store #{@store.to_s} -- location #{@store.get_location}\n" +
                 " Ordered Food\n"
         @thing.each { |i,j|
             text += "     Food #{i.to_s} Amount #{j} Price #{i.price * j}\n"
         }
+        text += " Delivery Cost = #{@delivery_cost} -- #{@delivery_length} units\n"
+        text += " Total Price = #{@price}\n"
         text += " Ordered Driver is Driver #{@driver.to_s}\n\n"
         text += "Route :\n" + @detail_route +"\n"
         text
