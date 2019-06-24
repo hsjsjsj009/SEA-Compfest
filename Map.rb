@@ -5,7 +5,8 @@ class Map
     def initialize(size)
         @size = size
         @list_thing = {}
-        @map_node = Array.new(size) {|i| Array.new(size) {|j| MapNode.new(i,j)}}
+        MapNode.map_size = size
+        @map_node = Array.new(size) {|i| Array.new(size) {|j| MapNode.new(j,i)}}
         @list_coordinates = []
     end
     def add_thing(dict)
@@ -62,5 +63,23 @@ class Map
             puts
         }
         puts
+    end
+    def self.path_to_point(start,finish)
+        start.store = false
+        finish.store = false
+        
+
+    end
+    def connect_node
+        system("clear")
+        puts("Generating Map")
+        a = 0
+        @map_node.each{|i|
+            b = 0 
+            i.each {|j|
+                j.find_neighbour(@map_node)
+            }
+        }
+        puts("Done")
     end
 end

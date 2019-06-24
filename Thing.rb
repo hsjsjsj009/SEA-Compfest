@@ -72,9 +72,5 @@ module Thing
     #     end
     #     route
     #     print "#{route}\n"
-    # end
-    def path_to_point(destination)
-        
-
-    end                 
+    # end                 
 end

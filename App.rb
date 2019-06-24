@@ -12,6 +12,8 @@ class App
         @map.add_thing({ @user => @user.get_location })
         @store_list = store.empty? ? generate_default_store : generate_store(store)
         @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
+        @map.connect_node
+        exit
     end
     def generate_default_store
         store = {}
