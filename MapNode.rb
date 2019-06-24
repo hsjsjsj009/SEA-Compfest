@@ -1,6 +1,6 @@
 class MapNode
-    attr_reader :content_active, :information, :neighbour_location, :neighbour_node
-    attr_accessor :f,:g,:h, :store
+    attr_reader :information, :neighbour_location, :neighbour_node, :x, :y
+    attr_accessor :f,:g,:h, :store,:content_show, :previous_node
     @@map_size = 0
     def initialize(x,y)
         @x = x
@@ -28,12 +28,8 @@ class MapNode
         ]
         area.each{|i|
             if(i[0] >= 0 && i[0] < @@map_size && i[1] >= 0 && i[1] < @@map_size)
-                if(map[i[1]][i[0]].store)
-                    next
-                else
-                    @neighbour_node.push map[i[1]][i[0]].to_s
+                    @neighbour_node.push map[i[1]][i[0]]
                     @neighbour_location.push i
-                end
             end
         }
     end
@@ -41,6 +37,7 @@ class MapNode
         @f = 0
         @g = 0
         @h = 0
+        @previous_node = nil
         if(@information == "Store")
             @store = true
         end

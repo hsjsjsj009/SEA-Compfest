@@ -11,14 +11,9 @@ class User < Human
         @history_order = []
     end
     def give_order(state)
-        driver = @app.get_closest_driver(state[:store].get_location)
-        if driver.nil?
-            nil
-        else
-            @active_order = Order.new(self,state[:order],state[:store],driver,state[:price])
+            @active_order = Order.new(self,state[:order],state[:store],state[:price])
             @history_order.push @active_order
-            1
-        end
+            @active_order
     end
     def run_app(map_size=20,drivers={},store={},user_location=[])
         start_location = user_location.empty? ? [Random.rand(0...map_size),Random.rand(0...map_size)] : user_location

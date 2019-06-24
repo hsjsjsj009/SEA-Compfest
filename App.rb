@@ -4,16 +4,16 @@ require './Store.rb'
 require './Food.rb'
 
 class App
-    attr_reader :map_size, :store_list, :driver_list
+    attr_reader :map_size, :store_list, :driver_list, :map
     def initialize(map_size,drivers,store,user)
         @map_size=map_size
         @map = Map.new(map_size)
         @user = user
         @map.add_thing({ @user => @user.get_location })
-        @store_list = store.empty? ? generate_default_store : generate_store(store)
+        @location_used = [@user.get_location]
         @driver_list= drivers.empty? ? generate_random_driver : generate_driver(drivers)
+        @store_list = store.empty? ? generate_default_store : generate_store(store)
         @map.connect_node
-        exit
     end
     def generate_default_store
         store = {}
@@ -29,6 +29,7 @@ class App
             location = generate_random_loc
             temp_store.set_location(location[0],location[1])
             @map.add_thing({temp_store => temp_store.get_location})
+            @location_used.push location
         }
         store
     end
@@ -45,6 +46,7 @@ class App
             }
             temp_store.set_location(loc[0],loc[1])
             @map.add_thing({temp_store => temp_store.get_location})
+            @location_used.push loc
         }
         store
     end
@@ -56,6 +58,7 @@ class App
             loc = generate_random_loc
             driver[i.to_sym].set_location(loc[0],loc[1])
             @map.add_thing({driver[i.to_sym] => driver[i.to_sym].get_location })
+            @location_used.push loc
         }
         driver
     end
@@ -70,6 +73,7 @@ class App
                 @driver_list[driver_name.to_sym].set_location(loc[0],loc[1])
                 @map.add_thing({@driver_list[driver_name.to_sym] => loc})
                 found = true
+                @location_used.push loc
             end
         end
         driver_name
@@ -83,17 +87,22 @@ class App
             driver[i.to_sym].connect_app(self)
             driver[i.to_sym].set_location(loc[0],loc[1])
             @map.add_thing({driver[i.to_sym] => driver[i.to_sym].get_location})
+            @location_used.push loc
         }
         driver
     end
     def generate_random_loc
-        list_coordinates = @map.list_thing.values
-        find_state = false
-        while !find_state
-            rand_location = [Random.rand(0...@map_size),Random.rand(0...@map_size)]
-            if !list_coordinates.include?(rand_location)
+        while true
+            x = (0...@map_size).to_a.sample
+            y = (0...@map_size).to_a.sample
+            rand_location = [x,y]
+            if (@location_used.include?(rand_location))
+                next
+            else
                 if(@map.check_area(rand_location))
-                    find_state=true
+                    break
+                else
+                    next
                 end
             end
         end
@@ -148,5 +157,18 @@ class App
     end
     def remove_thing(thing,location)
         @map.remove_thing({thing => location})
-    end       
+    end
+    def find_path(start,finish)
+        start_loc = start.get_location
+        finish_loc = finish.get_location
+        start_thing = @map.get_thing(start_loc)
+        finish_thing = @map.get_thing(finish_loc)
+        @map.path_to_point(start_thing,finish_thing)      
+    end
 end
+
+# test = App.new(5, {}, {})
+# test.see_map
+# print "#{test.find_path(test.driver_list.values[0],test.store_list.values[1])}\n\n"
+# test.see_map
+# # print "#{test.map.list_thing}"

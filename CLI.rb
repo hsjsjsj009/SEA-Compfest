@@ -102,18 +102,20 @@ class CLI
         end
     end
     def confirm_order(state)
+        order_processed = @user.give_order(state)
         puts "-------------------Confirm Order---------------------"
         puts "From Store #{state[:store].to_s}"
         state[:order].each {|i,j| 
             puts "Food #{i.to_s} Amount #{j} Price #{j * i.price}"
         }
+        puts "Delivery Cost : #{order_processed.delivery_fee}"
         puts "o. Ok"
         puts "b. Back"
         block_given? ? yield : nil
         temp_input = $stdin.gets.chomp
         if(temp_input == "o")
             system("clear")
-            process_order(state)
+            process_order(order_processed)
         elsif(temp_input == "b")
             system("clear")
             show_food(state[:store],state)
@@ -122,18 +124,19 @@ class CLI
             confirm_order(state) {puts "Wrong Command"}
         end
     end
-    def process_order(state)
-        if @user.give_order(state).nil?
+    def process_order(order)
+        if order.find_driver.nil?
             puts "Looking for driver...."
             driver = @app.generate_single_driver
             sleep(0.8)
             puts "Found Driver, Driver #{driver}"
             sleep(1)
             system("clear")
-            process_order(state)
+            process_order(order)
         else
             puts "Processing Order User #{@user.to_s} Number #{@user.active_order.id}"
             puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value}"
+            order.follow_route
             sleep(1)
             puts "Order done"
             puts "Give Rating to Driver #{@user.active_order.driver.to_s}"

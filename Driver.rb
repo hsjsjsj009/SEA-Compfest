@@ -13,11 +13,12 @@ class Driver < Human
         @price_per_unit = @@price_per_unit
         @rating = Rating.new(self,rating)
     end
+    def self.price_per_unit
+        @@price_per_unit
+    end
     def do_order(order)
         @active_order = order
         @history_order.push order
-        # route = order.route[:to_store] + order.route[:to_user]
-        # move(route)
         rand_location = @app.generate_random_loc
         @app.move_thing(self,rand_location)
     end
@@ -29,7 +30,5 @@ class Driver < Human
     end
     def connect_app(app)
         @app = app
-    end
-    def move(route)
     end
 end
