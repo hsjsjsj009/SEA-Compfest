@@ -28,7 +28,12 @@ class User < Human
     def get_list_store
         list_store = @app.store_list.values
         list_store.length.times {|i|
-            puts "#{i+1}. Store #{list_store[i].to_s}"
+            units = list_store[i].path_to_user(self)
+            if (units == -1)
+                next
+            else
+                puts "#{i+1}. Store #{list_store[i].to_s} -- #{units} units"
+            end
         }
         puts "Closest Store : Store #{@app.get_closest_store(get_location)}"
     end

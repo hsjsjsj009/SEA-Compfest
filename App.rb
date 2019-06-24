@@ -4,7 +4,7 @@ require './Store.rb'
 require './Food.rb'
 
 class App
-    attr_reader :map_size, :store_list, :driver_list, :map
+    attr_reader :map_size, :store_list, :driver_list, :map, :user
     def initialize(map_size,drivers,store,user)
         @map_size=map_size
         @map = Map.new(map_size)
@@ -166,9 +166,3 @@ class App
         @map.path_to_point(start_thing,finish_thing)      
     end
 end
-
-# test = App.new(5, {}, {})
-# test.see_map
-# print "#{test.find_path(test.driver_list.values[0],test.store_list.values[1])}\n\n"
-# test.see_map
-# # print "#{test.map.list_thing}"

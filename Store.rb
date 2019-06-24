@@ -1,7 +1,7 @@
 require './Thing.rb'
 class Store
     include Thing
-    attr_reader :name, :list_food
+    attr_reader :name, :list_food, :route_to_user
     def initialize(name)
         @name = name
         @list_food = []
@@ -38,5 +38,13 @@ class Store
     end
     def to_s
         @name
+    end
+    def path_to_user(user)
+        @route_to_user = @app.find_path(self,user)
+        if(@route_to_user == -1)
+            -1
+        else
+            @route_to_user.length - 1
+        end
     end
 end
