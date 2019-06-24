@@ -79,8 +79,11 @@ class CLI
             order_menu
         elsif(input == "e")
             system("clear")
+            puts "Writing History to File"
             @user.write_to_file
-            sleep(0.7)
+            sleep(1)
+            puts "Done"
+            sleep(0.5)
             @user.file.close
             exit
         elsif(0 < input.split(",")[0].to_i && input.split(",")[0].to_i <= store.list_food.length )
@@ -117,6 +120,7 @@ class CLI
             system("clear")
             process_order(order_processed)
         elsif(temp_input == "b")
+            @user.history_order.delete_at(-1)
             system("clear")
             show_food(state[:store],state)
         else
@@ -135,7 +139,7 @@ class CLI
             process_order(order)
         else
             puts "Processing Order User #{@user.to_s} Number #{@user.active_order.id}"
-            puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value}"
+            puts "Ordered Driver is Driver #{@user.active_order.driver.to_s} - Rating #{@user.active_order.driver.get_rating_value} -- Location #{@user.active_order.driver.get_location}"
             order.follow_route
             sleep(1)
             puts "Order done"
@@ -166,7 +170,9 @@ class CLI
         if @user.history_order.empty?
             puts "No History Order"
         else
-            print @user.print_history
+            @user.history_order.each {|i|
+                puts "#{i.id}. Order id #{i.id} in Store #{i.store.to_s}"
+            }
         end
         puts "b. Back"
         puts "e. Exit"
@@ -184,9 +190,35 @@ class CLI
             sleep(0.5)
             @user.file.close
             exit
+        elsif(1<=input.to_i && input.to_i<@user.history_order.length+1)
+            system("clear")
+            call_history(input.to_i)     
         else
             system("clear")
             see_history {puts "Wrong Command"}
+        end
+    end
+    def call_history(index)
+        print @user.history_order[index-1].detail_order
+        puts "b. Back"
+        puts "e. Exit"
+        block_given? ? yield : nil
+        input = $stdin.gets.chomp
+        if(input == "b")
+            system("clear")
+            see_history
+        elsif(input == "e")
+            system("clear")
+            puts "Writing History to File"
+            @user.write_to_file
+            sleep(1)
+            puts "Done"
+            sleep(0.5)
+            @user.file.close
+            exit
+        else
+            system("clear")
+            call_history(index) {puts "Wrong Command"}
         end
     end
 end

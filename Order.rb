@@ -39,6 +39,7 @@ class Order
             text += "     Food #{i.to_s} Amount #{j} Price #{i.price * j}\n"
         }
         text += " Ordered Driver is Driver #{@driver.to_s}\n\n"
+        text += "Route :\n" + @detail_route +"\n"
         text
     end
     def find_driver
@@ -51,11 +52,14 @@ class Order
     end
     def follow_route
         route = @route[:to_store] + @route[:to_user]
+        start = false
         reach_store = false
+        counter = 0
         route.each {|i|
-            if(i == @driver.get_location)
+            if(i == @driver.get_location && !start)
                 @detail_route += "driver is on the way to store, start at #{i}\n"
                 print "driver is on the way to store, start at #{i}\n"
+                start = true
             elsif(i == @store.get_location)
                 if(reach_store)
                     @detail_route += "driver has bought the item(s), start at #{i}\n" 
@@ -64,15 +68,19 @@ class Order
                     @detail_route += "go to #{i}, driver arrived at the store\n"
                     print "go to #{i}, driver arrived at the store\n"
                     reach_store = true
+                    sleep(0.8)
                 end
-            elsif(i == @user.get_location)
+            elsif(i == @user.get_location && counter == route.length-1)
                 @detail_route += "go to #{i}, driver arrived at your place\n"
                 print "go to #{i}, driver arrived at your place\n"
             else
                 @detail_route += "go to #{i}\n"
                 print "go to #{i}\n"
             end
+            counter += 1
             sleep(0.5)    
         }
+        rand_location = @user.app.generate_random_loc
+        @user.app.move_thing(@driver,rand_location)
     end
 end

@@ -1,0 +1,29 @@
+--------- Order Number 1 -----------
+ From Store aa
+ Ordered Food
+     Food gdg Amount 5 Price 600
+ Ordered Driver is Driver c
+
+Route :
+driver is on the way to store, start at [3, 3]
+go to [4, 3]
+go to [5, 3]
+go to [6, 3]
+go to [7, 3]
+go to [8, 3]
+go to [8, 4]
+go to [8, 5]
+go to [8, 6]
+go to [8, 7]
+go to [8, 8]
+go to [8, 9], driver arrived at the store
+driver has bought the item(s), start at [8, 9]
+go to [7, 9]
+go to [6, 9]
+go to [5, 9]
+go to [5, 8]
+go to [5, 7]
+go to [5, 6]
+go to [5, 5]
+go to [5, 4], driver arrived at your place
+

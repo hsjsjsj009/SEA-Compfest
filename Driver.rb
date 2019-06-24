@@ -19,8 +19,6 @@ class Driver < Human
     def do_order(order)
         @active_order = order
         @history_order.push order
-        rand_location = @app.generate_random_loc
-        @app.move_thing(self,rand_location)
     end
     def add_rating(rating)
         @rating.add_rating(rating.to_f)
