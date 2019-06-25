@@ -23,6 +23,7 @@ class Order
     end
     def delivery_fee
         route = @store.route_to_user
+        @route[:to_user] = route
         route_length = route.length - 1
         cost = route_length*Driver.price_per_unit
         @delivery_cost = cost
