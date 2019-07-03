@@ -16,6 +16,8 @@ Ukuran Peta saya perkirakan Minimal 7*7 satuan (apabila tidak menggunakan file),
 
 Setiap toko dapat diakses dari segala macam arah(kanan,kiri,atas,bawah)
 
+Toko yang tidak bisa di akses oleh user tidak ditampilkan di menu order.
+
 Setiap driver dapat melintasi driver dan User, disini saya menganggap satu node merupakan 2 ruas jalan. Tetapi driver tidak dapat melintasi Toko
 
 Saya kurang paham tentang perhitungan biaya perjalanan driver sehingga saya menghitung jarak dari store ke user lalu dikalikan dengan price per unit dari Driver.
